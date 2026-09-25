@@ -1,0 +1,257 @@
+=== Pegasus GPU Job Started (25 Tasks) ===
+SLURM Job ID: 138339780
+Compute Node: gpu024
+Date: Fri Sep 25 12:22:05 EDT 2026
+Fri Sep 25 12:22:11 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   20C    P0             25W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+=== Starting 25-Task Multi-Agent Reflection & Complexity Orchestrator ===
+Loaded 25 benchmark tasks across 18 projects.
+CUDA Available: True
+Loading Model: Qwen/Qwen2.5-Coder-1.5B-Instruct...
+
+==========================================
+Task 1/25: [checkstyle] Inline Method
+Target Method: com.puppycrawl.tools.checkstyle.checks.regexp.SinglelineDetector#resetState
+==========================================
+[Turn 1 Generation] Completed in 11.24s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 2.83s | Final Complexity: 2
+
+==========================================
+Task 2/25: [commons-io] Extract Method
+Target Method: org.apache.commons.io.input.ObservableInputStreamTest#testBrokenInputStreamRead
+==========================================
+[Turn 1 Generation] Completed in 2.00s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 8.19s | Final Complexity: 2
+
+==========================================
+Task 3/25: [commons-lang] Extract And Move Method
+Target Method: org.apache.commons.lang3.StringUtils#startsWithAny
+==========================================
+[Turn 1 Generation] Completed in 11.45s | Complexity: 5 -> 5
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 14.41s | Final Complexity: 7
+
+==========================================
+Task 4/25: [gson] Extract Method
+Target Method: com.google.gson.it.ShrinkingIT#testNoSerializedName_HasArgsConstructor
+==========================================
+[Turn 1 Generation] Completed in 6.08s | Complexity: 2 -> 4
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 9.79s | Final Complexity: 2
+
+==========================================
+Task 5/25: [guava] Move Method
+Target Method: com.google.common.base.StopwatchJavaTimeTest#testElapsed_duration
+==========================================
+[Turn 1 Generation] Completed in 1.82s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 5.76s | Final Complexity: 2
+
+==========================================
+Task 6/25: [hertzbeat] Extract Method
+Target Method: org.apache.hertzbeat.collector.collect.AbstractCollectE2eTest#collectMetricsData
+==========================================
+[Turn 1 Generation] Completed in 3.13s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 9.64s | Final Complexity: 3
+
+==========================================
+Task 7/25: [hibernate-orm] Extract Method
+Target Method: org.hibernate.mapping.BasicValue#buildResolution
+==========================================
+[Turn 1 Generation] Completed in 17.65s | Complexity: 16 -> 16
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 19.35s | Final Complexity: 17
+
+==========================================
+Task 8/25: [hibernate-search] Move Method
+Target Method: org.hibernate.search.util.impl.test.SubTest#assertThrown
+==========================================
+[Turn 1 Generation] Completed in 0.86s | Complexity: 2 -> 2
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 5.86s | Final Complexity: 3
+
+==========================================
+Task 9/25: [jadx] Extract Method
+Target Method: jadx.cli.TestInput#testHelp
+==========================================
+[Turn 1 Generation] Completed in 1.46s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 4.06s | Final Complexity: 2
+
+==========================================
+Task 10/25: [javaparser] Extract Method
+Target Method: com.github.javaparser.ast.body.RecordDeclarationTest#record_cannotExtend
+==========================================
+[Turn 1 Generation] Completed in 3.52s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 5.70s | Final Complexity: 1
+
+==========================================
+Task 11/25: [junit4] Inline Method
+Target Method: org.junit.runners.BlockJUnit4ClassRunner#getMethodRules
+==========================================
+[Turn 1 Generation] Completed in 0.78s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 4.26s | Final Complexity: 4
+
+==========================================
+Task 12/25: [junit5] Move Method
+Target Method: org.junit.platform.commons.util.ReflectionUtilsTests#findMethodsReturnsAllOverloadedMethodsThatAreNotShadowed
+==========================================
+[Turn 1 Generation] Completed in 4.19s | Complexity: 2 -> 2
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 7.68s | Final Complexity: 2
+
+==========================================
+Task 13/25: [mockito] Extract Method
+Target Method: org.mockito.internal.util.reflection.GenericMaster#getGenericType
+==========================================
+[Turn 1 Generation] Completed in 5.19s | Complexity: 7 -> 8
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 7.00s | Final Complexity: 8
+
+==========================================
+Task 14/25: [pmd] Move Method
+Target Method: net.sourceforge.pmd.processor.PmdRunnableTest#versionWithParserThatThrowsAssertionError
+==========================================
+[Turn 1 Generation] Completed in 0.95s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 3.65s | Final Complexity: 1
+
+==========================================
+Task 15/25: [shardingsphere-elasticjob] Move Method
+Target Method: org.apache.shardingsphere.elasticjob.http.executor.HttpJobExecutor#isWriteMethod
+==========================================
+[Turn 1 Generation] Completed in 1.18s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 6.64s | Final Complexity: 3
+
+==========================================
+Task 16/25: [shenyu] Extract Method
+Target Method: org.apache.shenyu.plugin.logging.clickhouse.handler.LoggingClickHousePluginDataHandlerTest#testHandlerPlugin
+==========================================
+[Turn 1 Generation] Completed in 4.16s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 8.15s | Final Complexity: 1
+
+==========================================
+Task 17/25: [shiro] Extract Method
+Target Method: org.apache.shiro.util.RegExPatternMatcherTest#testSimplePattern
+==========================================
+[Turn 1 Generation] Completed in 2.28s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 7.33s | Final Complexity: 2
+
+==========================================
+Task 18/25: [zxing] Extract Method
+Target Method: com.google.zxing.pdf417.encoder.PDF417EncoderTestCase#testEncodeAuto
+==========================================
+[Turn 1 Generation] Completed in 3.15s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 8.69s | Final Complexity: 1
+
+==========================================
+Task 19/25: [checkstyle] Extract And Move Method
+Target Method: com.puppycrawl.tools.checkstyle.xpath.AttributeNodeTest#testGetChildren
+==========================================
+[Turn 1 Generation] Completed in 1.84s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 5.91s | Final Complexity: 2
+
+==========================================
+Task 20/25: [commons-io] Extract Method
+Target Method: org.apache.commons.io.function.IOSupplier#asSupplier
+==========================================
+[Turn 1 Generation] Completed in 3.25s | Complexity: 1 -> 2
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 5.47s | Final Complexity: 3
+
+==========================================
+Task 21/25: [commons-lang] Extract And Move Method
+Target Method: org.apache.commons.lang3.StringUtils#removeIgnoreCase
+==========================================
+[Turn 1 Generation] Completed in 11.79s | Complexity: 1 -> 4
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 17.19s | Final Complexity: 4
+
+==========================================
+Task 22/25: [gson] Extract Method
+Target Method: com.google.gson.it.ShrinkingIT#testNoSerializedName_NoArgsConstructorNoJdkUnsafe
+==========================================
+[Turn 1 Generation] Completed in 6.71s | Complexity: 2 -> 4
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [SECURITY] Test modification detected. Original test suite is read-only.
+[Turn 2 Reflection] Repaired in 10.86s | Final Complexity: 7
+
+==========================================
+Task 23/25: [guava] Inline Method
+Target Method: com.google.common.net.HttpHeadersTest#assertConstantNameMatchesString
+==========================================
+[Turn 1 Generation] Completed in 2.30s | Complexity: 3 -> 3
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 5.10s | Final Complexity: 3
+
+==========================================
+Task 24/25: [hertzbeat] Extract Method
+Target Method: org.apache.hertzbeat.manager.controller.AppController#queryAppsHierarchy
+==========================================
+[Turn 1 Generation] Completed in 7.36s | Complexity: 5 -> 5
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 14.60s | Final Complexity: 8
+
+==========================================
+Task 25/25: [hibernate-orm] Extract Method
+Target Method: org.hibernate.persister.entity.mutation.InsertCoordinatorStandard#doDynamicInserts
+==========================================
+[Turn 1 Generation] Completed in 15.58s | Complexity: 1 -> 1
+[Build Gate FAILED] Reflection Triggered.
+[Diagnostic] [ERROR] cannot find symbol: static assertWithMessage (Google Truth dependency hallucination in JUnit Jupiter context)
+[Turn 2 Reflection] Repaired in 17.52s | Final Complexity: 1
+
+=== 25-Task Evaluation Complete in 400.39s ===
+Saved to results/orchestrator_25_tasks_output.json
+=== Pegasus GPU Job Finished ===
