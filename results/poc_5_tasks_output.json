@@ -1,0 +1,47 @@
+[
+  {
+    "uniqueId": "67b98ab96e15fba231ca494c7ce3752cce0a9654_57_71__61_75_86_91",
+    "project": "checkstyle",
+    "refactoringType": "Inline Method",
+    "compileJDK": 11,
+    "generatedPatch": "```java\n/**\n     * Reset the state of the detector.\n     */\n    private void resetState() {\n        currentMatches = 0;\n    }\n```",
+    "tokensGenerated": 33,
+    "inferenceTimeSec": 93.33
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_98_106_399_409_98_106",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "generatedPatch": "```java\n@Test\npublic void testGetChildren() {\n    final UnsupportedOperationException exception = \n        assertThrows(UnsupportedOperationException.class, () -> attributeNode.getChildren());\n    assertWithMessage(\"Invalid exception message\")\n        .that(exception)\n        .hasMessageThat()\n        .isEqualTo(\"Operation is not supported\");\n}\n```",
+    "tokensGenerated": 64,
+    "inferenceTimeSec": 1.99
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_68_76_399_409_68_76",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "generatedPatch": "```java\nimport static org.junit.jupiter.api.Assertions.assertThrows;\nimport static org.junit.jupiter.api.Assertions.assertWithMessage;\n\npublic class TestClass {\n\n    @Test\n    public void testGetDepth() {\n        final UnsupportedOperationException exception = assertThrows(\n            UnsupportedOperationException.class,\n            () -> attributeNode.getDepth()\n        );\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n                .isEqualTo(\"Operation is not supported\");\n    }\n\n    private int getDepth() {\n        // Implement the logic for getDepth here\n        throw new UnsupportedOperationException(\"Operation is not supported\");\n    }\n}\n```",
+    "tokensGenerated": 126,
+    "inferenceTimeSec": 3.9
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_101_117_399_409_101_117",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "generatedPatch": "```java\n@Test\npublic void testPropertyChainingRecursiveUnresolvable() throws Exception {\n    final File propertiesFile =\n            new File(getPath(\"InputChainedPropertyUtilRecursiveUnresolvable.properties\"));\n    final Properties properties = loadProperties(propertiesFile);\n    final String expected = ChainedPropertyUtil.UNDEFINED_PROPERTY_MESSAGE;\n    final String message = \"Undefined property reference expected.\";\n\n    final CheckstyleException exception = assertThrows(CheckstyleException.class,\n            () -> getResolvedProperties(properties));\n\n    assertWithMessage(message)\n            .that(exception)\n            .hasMessageThat()\n            .contains(expected);\n}\n\nprivate Properties getResolvedProperties(Properties properties) {\n    return ChainedPropertyUtil.getResolvedProperties(properties);\n}\n```",
+    "tokensGenerated": 146,
+    "inferenceTimeSec": 4.51
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_82_99_399_409_82_99",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "generatedPatch": "```java\nimport java.io.File;\nimport java.util.Properties;\n\npublic class TestPropertyChainingPropertyNotFound {\n\n    @Test\n    public void testPropertyChainingPropertyNotFound() throws Exception {\n        final File propertiesFile =\n            new File(getPath(\"InputChainedPropertyUtilUndefinedProperty.properties\"));\n        final Properties properties = loadProperties(propertiesFile);\n\n        final String expected =\n            ChainedPropertyUtil.UNDEFINED_PROPERTY_MESSAGE + \"[property.not.found]\";\n        final String message = \"Undefined property reference expected.\";\n\n        final CheckstyleException exception =\n            assertThrows(CheckstyleException.class,\n                () -> getResolvedProperties(properties));\n\n        assertWithMessage(message)\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(expected);\n    }\n\n    private static Properties getResolvedProperties(Properties properties) {\n        return ChainedPropertyUtil.getResolvedProperties(properties);\n    }\n}\n```",
+    "tokensGenerated": 177,
+    "inferenceTimeSec": 5.48
+  }
+]

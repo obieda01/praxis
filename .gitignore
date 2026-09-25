@@ -1,0 +1,10 @@
+*.zip
+*.tar.gz
+data/SWE-Refactor.zip
+data/SWE-Refactor/pure_refactoring_data.json
+data/__MACOSX/
+data/SWE-Refactor/code/projects/
+praxis-env/
+__pycache__/
+*.pt
+*.bin

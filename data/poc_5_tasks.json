@@ -1,0 +1,99 @@
+[
+  {
+    "uniqueId": "67b98ab96e15fba231ca494c7ce3752cce0a9654_57_71__61_75_86_91",
+    "project": "checkstyle",
+    "refactoringType": "Inline Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/main/java/com/puppycrawl/tools/checkstyle/checks/regexp/SinglelineDetector.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.checks.regexp.SinglelineDetector#resetState",
+    "sourceCodeBefore": "/**\n     * Reset the state of the detector.\n     */\n    private void resetState() {\n        currentMatches = 0;\n    }",
+    "groundTruthAfter": "/**\n     * Processes a set of lines looking for matches.\n     *\n     * @param fileText {@link FileText} object contains the lines to process.\n     */\n    public void processLines(FileText fileText) {\n        currentMatches = 0;\n        int lineNo = 0;\n        for (int index = 0; index < fileText.size(); index++) {\n            final String line = fileText.get(index);\n            lineNo++;\n            checkLine(lineNo, options.getPattern().matcher(line));\n        }\n        finish();\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 4
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 2
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_98_106_399_409_98_106",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/test/java/com/puppycrawl/tools/checkstyle/xpath/AttributeNodeTest.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.xpath.AttributeNodeTest#testGetChildren",
+    "sourceCodeBefore": "@Test\n    public void testGetChildren() {\n        final UnsupportedOperationException exception =\n            assertThrows(UnsupportedOperationException.class, attributeNode::getChildren);\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(\"Operation is not supported\");\n    }",
+    "groundTruthAfter": "@Test\n    public void testGetChildren() {\n        final UnsupportedOperationException exception =\n            getExpectedThrowable(UnsupportedOperationException.class, attributeNode::getChildren);\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(\"Operation is not supported\");\n    }\n",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_68_76_399_409_68_76",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/test/java/com/puppycrawl/tools/checkstyle/xpath/AttributeNodeTest.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.xpath.AttributeNodeTest#testGetDepth",
+    "sourceCodeBefore": "@Test\n    public void testGetDepth() {\n        final UnsupportedOperationException exception =\n            assertThrows(UnsupportedOperationException.class, attributeNode::getDepth);\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n                .isEqualTo(\"Operation is not supported\");\n    }",
+    "groundTruthAfter": "@Test\n    public void testGetDepth() {\n        final UnsupportedOperationException exception =\n            getExpectedThrowable(UnsupportedOperationException.class, attributeNode::getDepth);\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n                .isEqualTo(\"Operation is not supported\");\n    }\n",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_101_117_399_409_101_117",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/test/java/com/puppycrawl/tools/checkstyle/utils/ChainedPropertyUtilTest.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.utils.ChainedPropertyUtilTest#testPropertyChainingRecursiveUnresolvable",
+    "sourceCodeBefore": "@Test\n    public void testPropertyChainingRecursiveUnresolvable() throws Exception {\n        final File propertiesFile =\n            new File(getPath(\"InputChainedPropertyUtilRecursiveUnresolvable.properties\"));\n        final Properties properties = loadProperties(propertiesFile);\n        final String expected = ChainedPropertyUtil.UNDEFINED_PROPERTY_MESSAGE;\n        final String message = \"Undefined property reference expected.\";\n\n        final CheckstyleException exception =\n            assertThrows(CheckstyleException.class,\n                () -> ChainedPropertyUtil.getResolvedProperties(properties));\n\n        assertWithMessage(message)\n            .that(exception)\n            .hasMessageThat()\n            .contains(expected);\n    }",
+    "groundTruthAfter": "@Test\n    public void testPropertyChainingRecursiveUnresolvable() throws Exception {\n        final File propertiesFile =\n            new File(getPath(\"InputChainedPropertyUtilRecursiveUnresolvable.properties\"));\n        final Properties properties = loadProperties(propertiesFile);\n        final String expected = ChainedPropertyUtil.UNDEFINED_PROPERTY_MESSAGE;\n        final String message = \"Undefined property reference expected.\";\n\n        final CheckstyleException exception =\n            getExpectedThrowable(CheckstyleException.class,\n                () -> ChainedPropertyUtil.getResolvedProperties(properties));\n\n        assertWithMessage(message)\n            .that(exception)\n            .hasMessageThat()\n            .contains(expected);\n    }\n",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_82_99_399_409_82_99",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/test/java/com/puppycrawl/tools/checkstyle/utils/ChainedPropertyUtilTest.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.utils.ChainedPropertyUtilTest#testPropertyChainingPropertyNotFound",
+    "sourceCodeBefore": "@Test\n    public void testPropertyChainingPropertyNotFound() throws Exception {\n        final File propertiesFile =\n            new File(getPath(\"InputChainedPropertyUtilUndefinedProperty.properties\"));\n        final Properties properties = loadProperties(propertiesFile);\n        final String expected =\n            ChainedPropertyUtil.UNDEFINED_PROPERTY_MESSAGE + \"[property.not.found]\";\n        final String message = \"Undefined property reference expected.\";\n\n        final CheckstyleException exception =\n            assertThrows(CheckstyleException.class,\n                () -> ChainedPropertyUtil.getResolvedProperties(properties));\n\n        assertWithMessage(message)\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(expected);\n    }",
+    "groundTruthAfter": "@Test\n    public void testPropertyChainingPropertyNotFound() throws Exception {\n        final File propertiesFile =\n            new File(getPath(\"InputChainedPropertyUtilUndefinedProperty.properties\"));\n        final Properties properties = loadProperties(propertiesFile);\n        final String expected =\n            ChainedPropertyUtil.UNDEFINED_PROPERTY_MESSAGE + \"[property.not.found]\";\n        final String message = \"Undefined property reference expected.\";\n\n        final CheckstyleException exception =\n            getExpectedThrowable(CheckstyleException.class,\n                () -> ChainedPropertyUtil.getResolvedProperties(properties));\n\n        assertWithMessage(message)\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(expected);\n    }\n",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  }
+]
