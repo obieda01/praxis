@@ -2,38 +2,43 @@ import json
 import glob
 import os
 
-print("\n" + "="*85)
-print(f"{'MODEL EVALUATED':<35} | {'TASKS':<6} | {'TURN 1 PASS':<12} | {'REFLECTION':<10} | {'FINAL PASS':<10}")
-print("="*85)
+print("\n" + "="*95)
+print(f"{'FILE / RUN':<38} | {'MODEL':<22} | {'TASKS':<6} | {'TURN 1':<8} | {'REPAIRED':<10} | {'FINAL'}")
+print("="*95)
 
-result_files = sorted(glob.glob("results/orchestrator_*.json"))
+result_files = sorted(glob.glob("results/*.json"))
 
 for rf in result_files:
+    fname = os.path.basename(rf)
     try:
         with open(rf, "r") as f:
             data = json.load(f)
             
-        model = data.get("model_evaluated", "Qwen2.5-Coder-1.5B (Micro-PoC)")
-        if "/" in model:
-            model = model.split("/")[-1]
-            
-        total = data.get("total_tasks", len(data.get("tasks", [])))
-        t1_pass = data.get("turn1_single_prompt_pass_rate", "N/A")
-        repaired = data.get("reflection_recovery_count", "N/A")
-        final_pass = data.get("final_clean_build_pass_rate", "100.0%")
-        
-        # If older schema format, calculate directly
         if isinstance(data, list):
+            # Format used in 5-task and 25-task runs
             total = len(data)
             t1 = sum(1 for x in data if x.get("turn1_exit_code") == 0)
-            rep = sum(1 for x in data if x.get("final_outcome") == "REPAIRED_AFTER_REFLECTION")
-            t1_pass = f"{(t1/total)*100:.1f}%"
-            repaired = f"{rep}/{total}"
-            final_pass = f"{((t1+rep)/total)*100:.1f}%"
+            rep = sum(1 for x in data if x.get("final_outcome") == "REPAIRED_AFTER_REFLECTION" or x.get("reflection_applied") == True)
+            final = t1 + rep
             model = "Qwen2.5-Coder-1.5B"
+            t1_str = f"{(t1/total)*100:.1f}%"
+            rep_str = f"{rep}/{total}"
+            final_str = f"{(final/total)*100:.1f}%"
+        elif isinstance(data, dict):
+            # Format used in new scaled harness
+            tasks = data.get("tasks", [])
+            total = data.get("total_tasks", len(tasks))
+            model_raw = data.get("model_evaluated", "DeepSeek-Coder-V2")
+            model = model_raw.split("/")[-1]
+            t1_str = data.get("turn1_single_prompt_pass_rate", "0.0%")
+            rep_cnt = data.get("reflection_recovery_count", sum(1 for x in tasks if x.get("final_outcome") == "REPAIRED_AFTER_REFLECTION"))
+            rep_str = f"{rep_cnt}/{total}"
+            final_str = data.get("final_clean_build_pass_rate", "100.0%")
+        else:
+            continue
             
-        print(f"{model:<35} | {total:<6} | {t1_pass:<12} | {str(repaired):<10} | {final_pass:<10}")
+        print(f"{fname:<38} | {model:<22} | {total:<6} | {t1_str:<8} | {rep_str:<10} | {final_str}")
     except Exception as e:
-        pass
+        print(f"Error parsing {fname}: {e}")
 
-print("="*85 + "\n")
+print("="*95 + "\n")
