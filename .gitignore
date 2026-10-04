@@ -1,10 +1,58 @@
-*.zip
-*.tar.gz
-data/SWE-Refactor.zip
-data/SWE-Refactor/pure_refactoring_data.json
-data/__MACOSX/
-data/SWE-Refactor/code/projects/
-praxis-env/
+# ==========================================
+# Operating System & IDE
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.vscode/
+.idea/
+
+# ==========================================
+# Python & Environments
+# ==========================================
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+praxis-env/
+venv/
+ENV/
+env/
+.conda/
+
+# ==========================================
+# HPC & SLURM Outputs
+# ==========================================
+slurm_logs/
+*.out
+*.err
+
+# ==========================================
+# Model Weights & Large Binaries
+# ==========================================
 *.pt
 *.bin
+*.safetensors
+*.onnx
+*.zip
+*.tar.gz
+*.jar
+
+# ==========================================
+# Raw SWE-Refactor Dataset & Author Baselines
+# (Ignores all raw project code, zips, & 268 baseline dumps)
+# ==========================================
+data/SWE-Refactor.zip
+data/SWE-Refactor/
+data/__MACOSX/
+
+# If you want to track small, curated task files (like poc_25_tasks.json),
+# you can keep them tracked. If you want to ignore all data/ except task configs:
+# data/*
+# !data/poc_25_tasks.json
+# !data/benchmark_50_tasks.json

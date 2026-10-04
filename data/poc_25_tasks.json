@@ -1,0 +1,559 @@
+[
+  {
+    "uniqueId": "67b98ab96e15fba231ca494c7ce3752cce0a9654_57_71__61_75_86_91",
+    "project": "checkstyle",
+    "refactoringType": "Inline Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/main/java/com/puppycrawl/tools/checkstyle/checks/regexp/SinglelineDetector.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.checks.regexp.SinglelineDetector#resetState",
+    "sourceCodeBefore": "/**\n     * Reset the state of the detector.\n     */\n    private void resetState() {\n        currentMatches = 0;\n    }",
+    "groundTruthAfter": "/**\n     * Processes a set of lines looking for matches.\n     *\n     * @param fileText {@link FileText} object contains the lines to process.\n     */\n    public void processLines(FileText fileText) {\n        currentMatches = 0;\n        int lineNo = 0;\n        for (int index = 0; index < fileText.size(); index++) {\n            final String line = fileText.get(index);\n            lineNo++;\n            checkLine(lineNo, options.getPattern().matcher(line));\n        }\n        finish();\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 4
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 2
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "f448f97af45a5e4dcbb8937499076c1538f7c81d_130_135_131_133_160_165",
+    "project": "commons-io",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!FileUtilsDeleteDirectoryLinuxTestCase,!ObservableInputStreamTest",
+    "filePathBefore": "src/test/java/org/apache/commons/io/input/ObservableInputStreamTest.java",
+    "methodNameBefore": "org.apache.commons.io.input.ObservableInputStreamTest#testBrokenInputStreamRead",
+    "sourceCodeBefore": "@Test\n    public void testBrokenInputStreamRead() throws IOException {\n        try (ObservableInputStream ois = new ObservableInputStream(BrokenInputStream.INSTANCE)) {\n            assertThrows(IOException.class, ois::read);\n        }\n    }",
+    "groundTruthAfter": "@Test\n    public void testBrokenInputStreamRead() throws IOException {\n        try (ObservableInputStream ois = brokenObservableInputStream()) {\n            assertThrows(IOException.class, ois::read);\n        }\n    }\nprivate ObservableInputStream brokenObservableInputStream() {\n        return new ObservableInputStream(BrokenInputStream.INSTANCE);\n    }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "479532b83db2d7b228e4128f2db02233f91e6e91_7804_7836_1414_1448_7804_7830",
+    "project": "commons-lang",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "src/main/java/org/apache/commons/lang3/StringUtils.java",
+    "methodNameBefore": "org.apache.commons.lang3.StringUtils#startsWithAny",
+    "sourceCodeBefore": "/**\n     * Check if a CharSequence starts with any of the provided case-sensitive prefixes.\n     *\n     * <pre>\n     * StringUtils.startsWithAny(null, null)      = false\n     * StringUtils.startsWithAny(null, new String[] {\"abc\"})  = false\n     * StringUtils.startsWithAny(\"abcxyz\", null)     = false\n     * StringUtils.startsWithAny(\"abcxyz\", new String[] {\"\"}) = true\n     * StringUtils.startsWithAny(\"abcxyz\", new String[] {\"abc\"}) = true\n     * StringUtils.startsWithAny(\"abcxyz\", new String[] {null, \"xyz\", \"abc\"}) = true\n     * StringUtils.startsWithAny(\"abcxyz\", null, \"xyz\", \"ABCX\") = false\n     * StringUtils.startsWithAny(\"ABCXYZ\", null, \"xyz\", \"abc\") = false\n     * </pre>\n     *\n     * @param sequence the CharSequence to check, may be null\n     * @param searchStrings the case-sensitive CharSequence prefixes, may be empty or contain {@code null}\n     * @see StringUtils#startsWith(CharSequence, CharSequence)\n     * @return {@code true} if the input {@code sequence} is {@code null} AND no {@code searchStrings} are provided, or\n     *   the input {@code sequence} begins with any of the provided case-sensitive {@code searchStrings}.\n     * @since 2.5\n     * @since 3.0 Changed signature from startsWithAny(String, String[]) to startsWithAny(CharSequence, CharSequence...)\n     */\n    public static boolean startsWithAny(final CharSequence sequence, final CharSequence... searchStrings) {\n        if (isEmpty(sequence) || ArrayUtils.isEmpty(searchStrings)) {\n            return false;\n        }\n        for (final CharSequence searchString : searchStrings) {\n            if (Strings.CS.startsWith(sequence, searchString)) {\n                return true;\n            }\n        }\n        return false;\n    }",
+    "groundTruthAfter": "/**\n     * Tests if a CharSequence starts with any of the provided case-sensitive prefixes.\n     *\n     * <pre>\n     * StringUtils.startsWithAny(null, null)      = false\n     * StringUtils.startsWithAny(null, new String[] {\"abc\"})  = false\n     * StringUtils.startsWithAny(\"abcxyz\", null)     = false\n     * StringUtils.startsWithAny(\"abcxyz\", new String[] {\"\"}) = true\n     * StringUtils.startsWithAny(\"abcxyz\", new String[] {\"abc\"}) = true\n     * StringUtils.startsWithAny(\"abcxyz\", new String[] {null, \"xyz\", \"abc\"}) = true\n     * StringUtils.startsWithAny(\"abcxyz\", null, \"xyz\", \"ABCX\") = false\n     * StringUtils.startsWithAny(\"ABCXYZ\", null, \"xyz\", \"abc\") = false\n     * </pre>\n     *\n     * @param sequence the CharSequence to check, may be null\n     * @param searchStrings the case-sensitive CharSequence prefixes, may be empty or contain {@code null}\n     * @see StringUtils#startsWith(CharSequence, CharSequence)\n     * @return {@code true} if the input {@code sequence} is {@code null} AND no {@code searchStrings} are provided, or\n     *   the input {@code sequence} begins with any of the provided case-sensitive {@code searchStrings}.\n     * @since 2.5\n     * @since 3.0 Changed signature from startsWithAny(String, String[]) to startsWithAny(CharSequence, CharSequence...)\n     * @deprecated Use {@link Strings#startsWithAny(CharSequence, CharSequence...) Strings.CI.startsWithAny(CharSequence, CharSequence...)}\n     */\n    @Deprecated\n    public static boolean startsWithAny(final CharSequence sequence, final CharSequence... searchStrings) {\n        return Strings.CS.startsWithAny(sequence, searchStrings);\n    }\ndecomposed.setCharAt(i, 't');\n                break;\n            default:\n                break;\n            }\n        }\n    }\n\n    /**\n     * Counts how many times the char appears in the given string.\n     *\n     * <p>A {@code null} or empty (\"\") String input returns {@code 0}.</p>\n     *\n     * <pre>\n     * StringUtils.countMatches(null, *)     = 0\n     * StringUtils.countMatches(\"\", *)       = 0\n     * StringUtils.countMatches(\"abba\", 0)   = 0\n     * StringUtils.countMatches(\"abba\", 'a') = 2\n     * StringUtils.countMatches(\"abba\", 'b') = 2\n     * StringUtils.countMatches(\"abba\", 'x') = 0\n     * </pre>\n     *\n     * @param str  the CharSequence to check, may be null\n     * @param ch  the char to count\n     * @return the number of occurrences, 0 if the CharSequence is {@code null}\n     * @since 3.4\n     */\n    public static int countMatches(final CharSequence str, final char ch) {\n        if (isEmpty(str)) {\n            return 0;\n        }\n        int count = 0;\n        // We could also call str.toCharArray() for faster lookups but that would generate more garbage.\n        for (int i = 0; i < str.length(); i++) {\n            if (ch == str.charAt(i)) {",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 33
+      },
+      "BRANCH": {
+        "missed": 0,
+        "covered": 8
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 6
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 5
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "810e3560590bb807ed7113ccfff716aac21a3f33_274_297_64_67_283_306",
+    "project": "gson",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "test-shrinker/src/test/java/com/google/gson/it/ShrinkingIT.java",
+    "methodNameBefore": "com.google.gson.it.ShrinkingIT#testNoSerializedName_HasArgsConstructor",
+    "sourceCodeBefore": "@Test\n  public void testNoSerializedName_HasArgsConstructor() throws Exception {\n    runTest(\n        \"com.example.NoSerializedNameMain\",\n        c -> {\n          Method m = c.getMethod(\"runTestHasArgsConstructor\");\n\n          if (jarToTest.equals(PROGUARD_RESULT_PATH)) {\n            Object result = m.invoke(null);\n            assertThat(result).isEqualTo(\"value\");\n          } else {\n            // R8 performs more aggressive optimizations\n            Exception e = assertThrows(InvocationTargetException.class, () -> m.invoke(null));\n            assertThat(e)\n                .hasCauseThat()\n                .hasMessageThat()\n                .isEqualTo(\n                    \"Abstract classes can't be instantiated! Adjust the R8 configuration or\"\n                        + \" register an InstanceCreator or a TypeAdapter for this type. Class name:\"\n                        + \" com.example.NoSerializedNameMain$TestClassHasArgsConstructor\\n\"\n                        + \"See https://github.com/google/gson/blob/main/Troubleshooting.md#r8-abstract-class\");\n          }\n        });\n  }",
+    "groundTruthAfter": "@Test\n  public void testNoSerializedName_HasArgsConstructor() throws Exception {\n    runTest(\n        \"com.example.NoSerializedNameMain\",\n        c -> {\n          Method m = c.getMethod(\"runTestHasArgsConstructor\");\n\n          if (isTestingProGuard()) {\n            Object result = m.invoke(null);\n            assertThat(result).isEqualTo(\"value\");\n          } else {\n            // R8 performs more aggressive optimizations\n            Exception e = assertThrows(InvocationTargetException.class, () -> m.invoke(null));\n            assertThat(e)\n                .hasCauseThat()\n                .hasMessageThat()\n                .isEqualTo(\n                    \"Abstract classes can't be instantiated! Adjust the R8 configuration or\"\n                        + \" register an InstanceCreator or a TypeAdapter for this type. Class name:\"\n                        + \" com.example.NoSerializedNameMain$TestClassHasArgsConstructor\\n\"\n                        + \"See https://github.com/google/gson/blob/main/Troubleshooting.md#r8-abstract-class\");\n          }\n        });\n  }\n/** Returns whether the test is currently running for ProGuard, instead of R8 */\n  private boolean isTestingProGuard() {\n    return jarToTest.equals(PROGUARD_RESULT_PATH);\n  }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "80d7ed84cd3c78348dc4970144d43b35126a4dcd_34_40__199_207",
+    "project": "guava",
+    "refactoringType": "Move Method",
+    "compileJDK": 21,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true -DskipTests -pl '!guava-gwt' -am",
+    "filePathBefore": "android/guava-tests/test/com/google/common/base/StopwatchJavaTimeTest.java",
+    "methodNameBefore": "com.google.common.base.StopwatchJavaTimeTest#testElapsed_duration",
+    "sourceCodeBefore": "public void testElapsed_duration() {\n    stopwatch.start();\n    ticker.advance(999999);\n    assertEquals(Duration.ofNanos(999999), stopwatch.elapsed());\n    ticker.advance(1);\n    assertEquals(Duration.ofMillis(1), stopwatch.elapsed());\n  }",
+    "groundTruthAfter": "@GwtIncompatible\n  @J2ktIncompatible\n  public void testElapsed_duration() {\n    stopwatch.start();\n    ticker.advance(999999);\n    assertEquals(Duration.ofNanos(999999), stopwatch.elapsed());\n    ticker.advance(1);\n    assertEquals(Duration.ofMillis(1), stopwatch.elapsed());\n  }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "7effbc1f0d7738c17a29e25057422ef38c4331a3_111_118_142_148_137_140",
+    "project": "hertzbeat",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "hertzbeat-e2e/hertzbeat-collector-common-e2e/src/test/java/org/apache/hertzbeat/collector/collect/AbstractCollectE2eTest.java",
+    "methodNameBefore": "org.apache.hertzbeat.collector.collect.AbstractCollectE2eTest#collectMetricsData",
+    "sourceCodeBefore": "protected CollectRep.MetricsData.Builder collectMetricsData(Metrics metrics, Metrics metricsDef) {\n        setMetricsAliasFields(metrics, metricsDef);\n\n        // Collect metrics\n        CollectRep.MetricsData.Builder metricsData = CollectRep.MetricsData.newBuilder();\n        collect.collect(metricsData, metrics);\n        return metricsData;\n    }",
+    "groundTruthAfter": "protected CollectRep.MetricsData.Builder collectMetricsData(Metrics metrics, Metrics metricsDef) {\n        CollectRep.MetricsData.Builder metricsData = CollectRep.MetricsData.newBuilder();\n        return this.collectMetricsData(metrics, metricsDef, metricsData);\n    }\nprotected CollectRep.MetricsData.Builder collectMetricsData(Metrics metrics, Metrics metricsDef, CollectRep.MetricsData.Builder metricsData) {\n        setMetricsAliasFields(metrics, metricsDef);\n\n        // Collect metrics\n        collect.collect(metricsData, metrics);\n        return metricsData;\n    }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "6c6c92e88d4535be020b4acb3d81f96df39a65d8_428_498_462_465_427_460",
+    "project": "hibernate-orm",
+    "refactoringType": "Extract Method",
+    "compileJDK": 21,
+    "compileCommand": "./gradlew clean build",
+    "filePathBefore": "hibernate-core/src/main/java/org/hibernate/mapping/BasicValue.java",
+    "methodNameBefore": "org.hibernate.mapping.BasicValue#buildResolution",
+    "sourceCodeBefore": "protected Resolution<?> buildResolution() {\n\t\tfinal Properties typeParameters = getTypeParameters();\n\t\tif ( typeParameters != null\n\t\t\t\t&& parseBoolean( typeParameters.getProperty(DynamicParameterizedType.IS_DYNAMIC) )\n\t\t\t\t&& typeParameters.get(DynamicParameterizedType.PARAMETER_TYPE) == null ) {\n\t\t\tcreateParameterImpl();\n\t\t}\n\n\t\tif ( explicitTypeName != null ) {\n\t\t\treturn interpretExplicitlyNamedType(\n\t\t\t\t\texplicitTypeName,\n\t\t\t\t\texplicitJavaTypeAccess,\n\t\t\t\t\texplicitJdbcTypeAccess,\n\t\t\t\t\texplicitMutabilityPlanAccess,\n\t\t\t\t\tgetAttributeConverterDescriptor(),\n\t\t\t\t\ttypeParameters,\n\t\t\t\t\tthis::setTypeParameters,\n\t\t\t\t\tthis,\n\t\t\t\t\tgetBuildingContext()\n\t\t\t);\n\t\t}\n\n\t\tif ( isVersion() ) {\n\t\t\treturn VersionResolution.from( implicitJavaTypeAccess, timeZoneStorageType, getBuildingContext() );\n\t\t}\n\n\t\t// determine JavaType if we can\n\t\tfinal BasicJavaType<?> explicitJavaType = explicitJavaTypeAccess == null\n\t\t\t\t? null\n\t\t\t\t: explicitJavaTypeAccess.apply( getTypeConfiguration() );\n\n\t\tJavaType<?> javaType = determineJavaType( explicitJavaType );\n\t\tConverterDescriptor attributeConverterDescriptor = getAttributeConverterDescriptor();\n\n\t\tif ( isSoftDelete() ) {\n\t\t\tassert attributeConverterDescriptor != null;\n\t\t\tfinal boolean conversionWasUnspecified = SoftDelete.UnspecifiedConversion.class.equals( attributeConverterDescriptor.getAttributeConverterClass() );\n\t\t\tif ( conversionWasUnspecified ) {\n\t\t\t\tfinal JdbcType jdbcType = BooleanJdbcType.INSTANCE.resolveIndicatedType( this, javaType );\n\t\t\t\tif ( jdbcType.isNumber() ) {\n\t\t\t\t\tattributeConverterDescriptor = new InstanceBasedConverterDescriptor(\n\t\t\t\t\t\t\tNumericBooleanConverter.INSTANCE,\n\t\t\t\t\t\t\tgetBuildingContext().getBootstrapContext().getClassmateContext()\n\t\t\t\t\t);\n\t\t\t\t}\n\t\t\t\telse if ( jdbcType.isString() ) {\n\t\t\t\t\t// here we pick 'T' / 'F' storage, though 'Y' / 'N' is equally valid - its 50/50\n\t\t\t\t\tattributeConverterDescriptor = new InstanceBasedConverterDescriptor(\n\t\t\t\t\t\t\tTrueFalseConverter.INSTANCE,\n\t\t\t\t\t\t\tgetBuildingContext().getBootstrapContext().getClassmateContext()\n\t\t\t\t\t);\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\t// should indicate BIT or BOOLEAN == no conversion needed\n\t\t\t\t\t//\t\t- we still create the converter to properly set up JDBC type, etc\n\t\t\t\t\tattributeConverterDescriptor = new InstanceBasedConverterDescriptor(\n\t\t\t\t\t\t\tPassThruSoftDeleteConverter.INSTANCE,\n\t\t\t\t\t\t\tgetBuildingContext().getBootstrapContext().getClassmateContext()\n\t\t\t\t\t);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tif ( getSoftDeleteStrategy() == SoftDeleteType.ACTIVE ) {\n\t\t\t\tattributeConverterDescriptor = new ReversedConverterDescriptor<>( attributeConverterDescriptor );\n\t\t\t}\n\t\t}\n\n\t\treturn attributeConverterDescriptor != null\n\t\t\t\t? converterResolution( javaType, attributeConverterDescriptor )\n\t\t\t\t: resolution( explicitJavaType, javaType );\n\t}",
+    "groundTruthAfter": "protected Resolution<?> buildResolution() {\n\t\tfinal Properties typeParameters = getTypeParameters();\n\t\tif ( typeParameters != null\n\t\t\t\t&& parseBoolean( typeParameters.getProperty(DynamicParameterizedType.IS_DYNAMIC) )\n\t\t\t\t&& typeParameters.get(DynamicParameterizedType.PARAMETER_TYPE) == null ) {\n\t\t\tcreateParameterImpl();\n\t\t}\n\n\t\tif ( explicitTypeName != null ) {\n\t\t\treturn interpretExplicitlyNamedType(\n\t\t\t\t\texplicitTypeName,\n\t\t\t\t\texplicitJavaTypeAccess,\n\t\t\t\t\texplicitJdbcTypeAccess,\n\t\t\t\t\texplicitMutabilityPlanAccess,\n\t\t\t\t\tgetAttributeConverterDescriptor(),\n\t\t\t\t\ttypeParameters,\n\t\t\t\t\tthis::setTypeParameters,\n\t\t\t\t\tthis,\n\t\t\t\t\tgetBuildingContext()\n\t\t\t);\n\t\t}\n\t\telse if ( isVersion() ) {\n\t\t\treturn VersionResolution.from( implicitJavaTypeAccess, timeZoneStorageType, getBuildingContext() );\n\t\t}\n\t\telse {\n\t\t\t// determine JavaType if we can\n\t\t\tfinal BasicJavaType<?> explicitJavaType = getExplicitJavaType();\n\t\t\tfinal JavaType<?> javaType = determineJavaType( explicitJavaType );\n\t\t\tfinal ConverterDescriptor converterDescriptor = getConverterDescriptor( javaType );\n\t\t\treturn converterDescriptor != null\n\t\t\t\t\t? converterResolution( javaType, converterDescriptor )\n\t\t\t\t\t: resolution( explicitJavaType, javaType );\n\t\t}\n\t}\nprivate BasicJavaType<?> getExplicitJavaType() {\n\t\treturn explicitJavaTypeAccess == null ? null\n\t\t\t\t: explicitJavaTypeAccess.apply( getTypeConfiguration() );\n\t}",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 71
+      },
+      "BRANCH": {
+        "missed": 0,
+        "covered": 12
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 17
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 7
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "f50cbfc772b75e7d7a983359b9baca383bc6ae9f_67_70__86_89",
+    "project": "hibernate-search",
+    "refactoringType": "Move Method",
+    "compileJDK": 1.8,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "util/internal/test/src/main/java/org/hibernate/search/util/impl/test/SubTest.java",
+    "methodNameBefore": "org.hibernate.search.util.impl.test.SubTest#assertThrown",
+    "sourceCodeBefore": "public AbstractThrowableAssert<?, Throwable> assertThrown() {\n\t\treturn new ThrowableAssert( thrown )\n\t\t\t\t.as( description );\n\t}",
+    "groundTruthAfter": "public AbstractThrowableAssert<?, Throwable> assertThrown() {\n\t\t\treturn new ThrowableAssert( thrown )\n\t\t\t\t\t.as( description );\n\t\t}",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "d4ce969fb74cae6f3729b348d281323980474c6d_34_38_126_132_45_49",
+    "project": "jadx",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "./gradlew clean build -x spotlessJavaCheck -x spotlessMisc -x checkstyleMain -x checkstyleTest",
+    "filePathBefore": "jadx-cli/src/test/java/jadx/cli/TestInput.java",
+    "methodNameBefore": "jadx.cli.TestInput#testHelp",
+    "sourceCodeBefore": "@Test\n\tpublic void testHelp() {\n\t\tint result = JadxCLI.execute(new String[] { \"--help\" });\n\t\tassertThat(result).isEqualTo(0);\n\t}",
+    "groundTruthAfter": "@Test\n\tpublic void testHelp() {\n\t\tint result = execJadxCli(new String[] { \"--help\" });\n\t\tassertThat(result).isEqualTo(0);\n\t}\nprivate int execJadxCli(String[] args) {\n\t\treturn JadxCLI.execute(args, jadxArgs -> {\n\t\t\t// don't use global config and plugins\n\t\t\tjadxArgs.setFilesGetter(new SingleDirFilesGetter(testDir));\n\t\t\tjadxArgs.setPluginLoader(new JadxBasePluginLoader());\n\t\t});\n\t}",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "a73aba7b8cef7c52666d25169a3f6e495c65bcd2_95_104_307_311_96_103",
+    "project": "javaparser",
+    "refactoringType": "Extract Method",
+    "compileJDK": 1.8,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "javaparser-core-testing/src/test/java/com/github/javaparser/ast/body/RecordDeclarationTest.java",
+    "methodNameBefore": "com.github.javaparser.ast.body.RecordDeclarationTest#record_cannotExtend",
+    "sourceCodeBefore": "/**\n     * https://openjdk.java.net/jeps/395#Restrictions-on-record\n     */\n    @Test\n    void record_cannotExtend() {\n        String s = \"record Point(int x, int y) extends OtherThing { }\";\n        assertThrows(AssertionFailedError.class, () -> {\n            CompilationUnit cu = parseCompilationUnit(s);\n        });\n    }",
+    "groundTruthAfter": "/**\n     * https://openjdk.java.net/jeps/395#Restrictions-on-record\n     */\n    @Test\n    void record_cannotExtend() {\n        String s = \"record Point(int x, int y) extends OtherThing { }\";\n        assertCompilationFails(s);\n    }\nprivate void assertCompilationFails(String s) {\n        assertThrows(AssertionFailedError.class, () -> {\n            CompilationUnit cu = parseCompilationUnit(s);\n        });\n    }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "aad22b88bf3332cf304da6f558152b59cdbeea2b_403_412__395_412_414_416",
+    "project": "junit4",
+    "refactoringType": "Inline Method",
+    "compileJDK": 1.8,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "src/main/java/org/junit/runners/BlockJUnit4ClassRunner.java",
+    "methodNameBefore": "org.junit.runners.BlockJUnit4ClassRunner#getMethodRules",
+    "sourceCodeBefore": "private List<org.junit.rules.MethodRule> getMethodRules(Object target) {\n        return rules(target);\n    }",
+    "groundTruthAfter": "private Statement withRules(FrameworkMethod method, Object target, Statement statement) {\n        RuleContainer ruleContainer = new RuleContainer();\n        CURRENT_RULE_CONTAINER.set(ruleContainer);\n        try {\n            List<TestRule> testRules = getTestRules(target);\n            for (MethodRule each : rules(target)) {\n                if (!(each instanceof TestRule && testRules.contains(each))) {\n                    ruleContainer.add(each);\n                }\n            }\n            for (TestRule rule : testRules) {\n                ruleContainer.add(rule);\n            }\n        } finally {\n            CURRENT_RULE_CONTAINER.remove();\n        }\n        return ruleContainer.apply(method, describeChild(method), target, statement);\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 4
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 1
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "926e03c7ce9b4a88fce274ca24102f913d747108_1278_1290__1482_1494",
+    "project": "junit5",
+    "refactoringType": "Move Method",
+    "compileJDK": 21,
+    "compileCommand": "./gradlew clean build",
+    "filePathBefore": "platform-tests/src/test/java/org/junit/platform/commons/util/ReflectionUtilsTests.java",
+    "methodNameBefore": "org.junit.platform.commons.util.ReflectionUtilsTests#findMethodsReturnsAllOverloadedMethodsThatAreNotShadowed",
+    "sourceCodeBefore": "@Test\n\tvoid findMethodsReturnsAllOverloadedMethodsThatAreNotShadowed() {\n\t\tClass<?> clazz = InterfaceWithGenericDefaultMethodImpl.class;\n\n\t\t// Search for all foo(*) methods.\n\t\tvar methods = findMethods(clazz, isFooMethod);\n\n\t\t// One might expect or desire that the signature for the generic foo(N)\n\t\t// default method would be \"foo(java.lang.Long)\" when looked up via the\n\t\t// concrete parameterized class, but it apparently is only _visible_ as\n\t\t// \"foo(java.lang.Number)\" via reflection.\n\t\tassertThat(signaturesOf(methods)).containsExactly(\"foo(java.lang.Number)\", \"foo(java.lang.Double)\");\n\t}",
+    "groundTruthAfter": "@Test\n\t\tvoid findMethodsReturnsAllOverloadedMethodsThatAreNotShadowed() {\n\t\t\tClass<?> clazz = InterfaceWithGenericDefaultMethodImpl.class;\n\n\t\t\t// Search for all foo(*) methods.\n\t\t\tvar methods = findMethods(clazz, isFooMethod);\n\n\t\t\t// One might expect or desire that the signature for the generic foo(N)\n\t\t\t// default method would be \"foo(java.lang.Long)\" when looked up via the\n\t\t\t// concrete parameterized class, but it apparently is only _visible_ as\n\t\t\t// \"foo(java.lang.Number)\" via reflection.\n\t\t\tassertThat(signaturesOf(methods)).containsExactly(\"foo(java.lang.Number)\", \"foo(java.lang.Double)\");\n\t\t}",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "6f4eb023ac76f2d59020f59a5a8e8c602a094235_13_31_33_45_14_22",
+    "project": "mockito",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "./gradlew clean build",
+    "filePathBefore": "src/main/java/org/mockito/internal/util/reflection/GenericMaster.java",
+    "methodNameBefore": "org.mockito.internal.util.reflection.GenericMaster#getGenericType",
+    "sourceCodeBefore": "/**\n     * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class.\n     *\n     * @param field the field to inspect\n     */\n    public Class<?> getGenericType(Field field) {\n        Type generic = field.getGenericType();\n        if (generic instanceof ParameterizedType) {\n            Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n            if (actual instanceof Class) {\n                return (Class<?>) actual;\n            } else if (actual instanceof ParameterizedType) {\n                // in case of nested generics we don't go deep\n                return (Class<?>) ((ParameterizedType) actual).getRawType();\n            }\n        }\n\n        return Object.class;\n    }",
+    "groundTruthAfter": "/**\n     * Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class.\n     *\n     * @param field the field to inspect\n     */\n    public Class<?> getGenericType(Field field) {\n        Type generic = field.getGenericType();\n        return getaClass(generic);\n    }\nprivate Class<?> getaClass(Type generic) {\n        if (generic instanceof ParameterizedType) {\n            Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n            if (actual instanceof Class) {\n                return (Class<?>) actual;\n            } else if (actual instanceof ParameterizedType) {\n                // in case of nested generics we don't go deep\n                return (Class<?>) ((ParameterizedType) actual).getRawType();\n            }\n        }\n\n        return Object.class;\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 28
+      },
+      "BRANCH": {
+        "missed": 0,
+        "covered": 6
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 8
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 4
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "d5b3478c8a5d06ab221c2a8d31d976a508beb0a8_162_164__57_59",
+    "project": "pmd",
+    "refactoringType": "Move Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!FileUtilsTest,!FileUtilsCleanSymlinksTest,!FileUtilsCleanDirectoryTest,!FileDeleteStrategyTest,!PathUtilsDeleteDirectoryTest,!PathUtilsDeleteFileTest,!PathUtilsDeleteTest'",
+    "filePathBefore": "pmd-core/src/test/java/net/sourceforge/pmd/processor/PmdRunnableTest.java",
+    "methodNameBefore": "net.sourceforge.pmd.processor.PmdRunnableTest#versionWithParserThatThrowsAssertionError",
+    "sourceCodeBefore": "public static LanguageVersion versionWithParserThatThrowsAssertionError() {\n        return DummyLanguageModule.getInstance().getVersion(THROWS_ASSERTION_ERROR);\n    }",
+    "groundTruthAfter": "public static LanguageVersion versionWithParserThatThrowsAssertionError() {\n        return DummyLanguageModule.getInstance().getVersion(THROWS_ASSERTION_ERROR);\n    }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "1bdc817c6a81cd0e0ffffc51aec25ec8d7e1f212_117_119__63_70",
+    "project": "shardingsphere-elasticjob",
+    "refactoringType": "Move Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn clean package -Dcheckstyle.skip=true -Djacoco.skip=false -Drat.skip=true -Dmaven.javadoc.skip=true -Dsurefire.failIfNoSpecifiedTests=false -DfailIfNoTests=false",
+    "filePathBefore": "ecosystem/executor/http/src/main/java/org/apache/shardingsphere/elasticjob/http/executor/HttpJobExecutor.java",
+    "methodNameBefore": "org.apache.shardingsphere.elasticjob.http.executor.HttpJobExecutor#isWriteMethod",
+    "sourceCodeBefore": "private boolean isWriteMethod(final String method) {\n        return Arrays.asList(\"POST\", \"PUT\", \"DELETE\").contains(method.toUpperCase());\n    }",
+    "groundTruthAfter": "/**\n     * Is write method.\n     * \n     * @return write method or not\n     */\n    public boolean isWriteMethod() {\n        return Arrays.asList(\"POST\", \"PUT\", \"DELETE\").contains(method.toUpperCase());\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 19
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 1
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "5be0bf6d7422bfc478ce122800f5c21960681352_37_48_85_94_50_55",
+    "project": "shenyu",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn clean package -Djacoco.skip=false -Drat.skip=true -Dmaven.javadoc.skip=true -Dsurefire.failIfNoSpecifiedTests=false -DfailIfNoTests=false -Dtest='!AiResponseTransformerPluginTest'",
+    "filePathBefore": "shenyu-plugin/shenyu-plugin-logging/shenyu-plugin-logging-clickhouse/src/test/java/org/apache/shenyu/plugin/logging/clickhouse/handler/LoggingClickHousePluginDataHandlerTest.java",
+    "methodNameBefore": "org.apache.shenyu.plugin.logging.clickhouse.handler.LoggingClickHousePluginDataHandlerTest#testHandlerPlugin",
+    "sourceCodeBefore": "@Test\n    public void testHandlerPlugin() {\n        PluginData pluginData = new PluginData();\n        pluginData.setConfig(\"{\\\"host\\\":\\\"127.0.0.1\\\",\\\"port\\\":\\\"8123\\\",\\\"database\\\":\\\"shenyu-gateway\\\",\\\"username\\\":\\\"foo\\\",\\\"password\\\":\\\"bar\\\", \\\"ttl\\\":\\\"30\\\"}\");\n        pluginData.setEnabled(true);\n        pluginData.setId(\"37\");\n        pluginData.setName(\"loggingClickHouse\");\n        pluginData.setRole(\"Logging\");\n        pluginData.setSort(195);\n        loggingClickHousePluginDataHandler.handlerPlugin(pluginData);\n        Assertions.assertNull(null);\n    }",
+    "groundTruthAfter": "@Test\n    public void testHandlerPlugin() {\n        PluginData pluginData = createPluginData();\n        loggingClickHousePluginDataHandler.handlerPlugin(pluginData);\n        Assertions.assertNull(null);\n    }\nprivate PluginData createPluginData() {\n        PluginData pluginData = new PluginData();\n        pluginData.setConfig(\"{\\\"host\\\":\\\"127.0.0.1\\\",\\\"port\\\":\\\"8123\\\",\\\"database\\\":\\\"shenyu-gateway\\\",\\\"username\\\":\\\"foo\\\",\\\"password\\\":\\\"bar\\\", \\\"ttl\\\":\\\"30\\\"}\");\n        pluginData.setEnabled(true);\n        pluginData.setId(\"37\");\n        pluginData.setName(\"loggingClickHouse\");\n        pluginData.setRole(\"Logging\");\n        pluginData.setSort(195);\n        return pluginData;\n    }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "f42ae2c79ca7268535f4fa907d36572b953a88a6_33_41_58_60_31_34",
+    "project": "shiro",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn clean package -Dcheckstyle.skip=true -Djacoco.skip=false -Drat.skip=true -Dmaven.javadoc.skip=true -Dsurefire.failIfNoSpecifiedTests=false -DfailIfNoTests=false -Dtest='!WebAppContainerIntegrationIT,!ContainerIntegrationIT,!OpenLibertyIT'",
+    "filePathBefore": "core/src/test/java/org/apache/shiro/util/RegExPatternMatcherTest.java",
+    "methodNameBefore": "org.apache.shiro.util.RegExPatternMatcherTest#testSimplePattern",
+    "sourceCodeBefore": "@Test\n    public void testSimplePattern() {\n        PatternMatcher pm = new RegExPatternMatcher();\n        String pattern = \"a*b\";\n        String test = \"aaaaaaab\";\n        //not necessary for the test, but Idea performs auto validation when it sees this:\n        Pattern.compile(pattern);\n        assertTrue(pm.matches(pattern, test));\n    }",
+    "groundTruthAfter": "@Test\n    public void testSimplePattern() {\n        assertPatternMatch(\"a*b\", \"aaaaaaab\");\n    }\nprivate void assertPatternMatch(String pattern, String path) {\n        assertPatternMatch(pattern, path, new RegExPatternMatcher());\n    }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "3b189fc700c9c7c210f4b78fc66b01f4c13ae5d2_31_36_109_111_41_45",
+    "project": "zxing",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "core/src/test/java/com/google/zxing/pdf417/encoder/PDF417EncoderTestCase.java",
+    "methodNameBefore": "com.google.zxing.pdf417.encoder.PDF417EncoderTestCase#testEncodeAuto",
+    "sourceCodeBefore": "@Test\n  public void testEncodeAuto() throws Exception {\n    String encoded = PDF417HighLevelEncoder.encodeHighLevel(\n        \"ABCD\", Compaction.AUTO, StandardCharsets.UTF_8, false);\n    assertEquals(\"\\u039f\\u001A\\u0385ABCD\", encoded);\n  }",
+    "groundTruthAfter": "@Test\n  public void testEncodeAuto() throws Exception {\n    String input = \"ABCD\";\n    assertEquals(PDF417PFX + input, checkEncodeAutoWithSpecialChars(input, Compaction.AUTO));\n  }\npublic String checkEncodeAutoWithSpecialChars(String input, Compaction compaction) throws Exception {\n    return PDF417HighLevelEncoder.encodeHighLevel(input, compaction, StandardCharsets.UTF_8, false);\n  }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "bfb3e5f5e416211bc95799426edba4581b442d0d_98_106_399_409_98_106",
+    "project": "checkstyle",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!TestMessageReporter,!XpathRegressionTest,!XdocsPagesTest'",
+    "filePathBefore": "src/test/java/com/puppycrawl/tools/checkstyle/xpath/AttributeNodeTest.java",
+    "methodNameBefore": "com.puppycrawl.tools.checkstyle.xpath.AttributeNodeTest#testGetChildren",
+    "sourceCodeBefore": "@Test\n    public void testGetChildren() {\n        final UnsupportedOperationException exception =\n            assertThrows(UnsupportedOperationException.class, attributeNode::getChildren);\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(\"Operation is not supported\");\n    }",
+    "groundTruthAfter": "@Test\n    public void testGetChildren() {\n        final UnsupportedOperationException exception =\n            getExpectedThrowable(UnsupportedOperationException.class, attributeNode::getChildren);\n        assertWithMessage(\"Invalid exception message\")\n            .that(exception)\n            .hasMessageThat()\n            .isEqualTo(\"Operation is not supported\");\n    }\n",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "12dbeafe93f7d63512db1c07cbe7bd9bef985044_33_41_54_63_36_44",
+    "project": "commons-io",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true -Dtest='!FileUtilsDeleteDirectoryLinuxTestCase,!ObservableInputStreamTest",
+    "filePathBefore": "src/main/java/org/apache/commons/io/function/IOSupplier.java",
+    "methodNameBefore": "org.apache.commons.io.function.IOSupplier#asSupplier",
+    "sourceCodeBefore": "/**\n     * Creates a {@link Supplier} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.\n     *\n     * @return an UncheckedIOException Supplier.\n     * @since 2.12.0\n     */\n    default Supplier<T> asSupplier() {\n        return () -> Uncheck.get(this);\n    }",
+    "groundTruthAfter": "/**\n     * Creates a {@link Supplier} for this instance that throws {@link UncheckedIOException} instead of {@link IOException}.\n     *\n     * @return an UncheckedIOException Supplier.\n     * @since 2.12.0\n     */\n    default Supplier<T> asSupplier() {\n        return this::getUnchecked;\n    }\n/**\n     * Gets a result.\n     *\n     * @return a result.\n     * @throws UncheckedIOException if an I/O error occurs.\n     * @since 2.17.0\n     */\n    default T getUnchecked() throws UncheckedIOException {\n        return Uncheck.get(this);\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 3
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 1
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "cdddb82e12ef7b2cc770125e930bde040b032213_5872_5905_1044_1086_5871_5906",
+    "project": "commons-lang",
+    "refactoringType": "Extract And Move Method",
+    "compileJDK": 11,
+    "compileCommand": "mvn clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "src/main/java/org/apache/commons/lang3/StringUtils.java",
+    "methodNameBefore": "org.apache.commons.lang3.StringUtils#removeIgnoreCase",
+    "sourceCodeBefore": "/**\n     * Case-insensitive removal of all occurrences of a substring from within\n     * the source string.\n     *\n     * <p>\n     * A {@code null} source string will return {@code null}. An empty (\"\")\n     * source string will return the empty string. A {@code null} remove string\n     * will return the source string. An empty (\"\") remove string will return\n     * the source string.\n     * </p>\n     *\n     * <pre>\n     * StringUtils.removeIgnoreCase(null, *)        = null\n     * StringUtils.removeIgnoreCase(\"\", *)          = \"\"\n     * StringUtils.removeIgnoreCase(*, null)        = *\n     * StringUtils.removeIgnoreCase(*, \"\")          = *\n     * StringUtils.removeIgnoreCase(\"queued\", \"ue\") = \"qd\"\n     * StringUtils.removeIgnoreCase(\"queued\", \"zz\") = \"queued\"\n     * StringUtils.removeIgnoreCase(\"quEUed\", \"UE\") = \"qd\"\n     * StringUtils.removeIgnoreCase(\"queued\", \"zZ\") = \"queued\"\n     * </pre>\n     *\n     * @param str\n     *            the source String to search, may be null\n     * @param remove\n     *            the String to search for (case-insensitive) and remove, may be\n     *            null\n     * @return the substring with the string removed if found, {@code null} if\n     *         null String input\n     * @since 3.5\n     */\n    public static String removeIgnoreCase(final String str, final String remove) {\n        return Strings.CI.replace(str, remove, EMPTY, -1);\n    }",
+    "groundTruthAfter": "/**\n     * Case-insensitive removal of all occurrences of a substring from within\n     * the source string.\n     *\n     * <p>\n     * A {@code null} source string will return {@code null}. An empty (\"\")\n     * source string will return the empty string. A {@code null} remove string\n     * will return the source string. An empty (\"\") remove string will return\n     * the source string.\n     * </p>\n     *\n     * <pre>\n     * StringUtils.removeIgnoreCase(null, *)        = null\n     * StringUtils.removeIgnoreCase(\"\", *)          = \"\"\n     * StringUtils.removeIgnoreCase(*, null)        = *\n     * StringUtils.removeIgnoreCase(*, \"\")          = *\n     * StringUtils.removeIgnoreCase(\"queued\", \"ue\") = \"qd\"\n     * StringUtils.removeIgnoreCase(\"queued\", \"zz\") = \"queued\"\n     * StringUtils.removeIgnoreCase(\"quEUed\", \"UE\") = \"qd\"\n     * StringUtils.removeIgnoreCase(\"queued\", \"zZ\") = \"queued\"\n     * </pre>\n     *\n     * @param str\n     *            the source String to search, may be null\n     * @param remove\n     *            the String to search for (case-insensitive) and remove, may be\n     *            null\n     * @return the substring with the string removed if found, {@code null} if\n     *         null String input\n     * @since 3.5\n     * @deprecated Use {@link Strings#remove(String, String) Strings.CI.remove(String, String)}\n     */\n    @Deprecated\n    public static String removeIgnoreCase(final String str, final String remove) {\n        return Strings.CI.remove(str, remove);\n    }\nreturn true;\n                    }\n                    if (i < csLast && searchChars[j + 1] == cs.charAt(i + 1)) {\n                        return true;\n                    }\n                }\n            }\n        }\n        return false;\n    }\n\n    /**\n     * Tests if the CharSequence contains any character in the given set of characters.\n     *\n     * <p>\n     * A {@code null} CharSequence will return {@code false}. A {@code null} search CharSequence will return\n     * {@code false}.\n     * </p>\n     *\n     * <pre>\n     * StringUtils.containsAny(null, *)               = false\n     * StringUtils.containsAny(\"\", *)                 = false\n     * StringUtils.containsAny(*, null)               = false\n     * StringUtils.containsAny(*, \"\")                 = false\n     * StringUtils.containsAny(\"zzabyycdxx\", \"za\")    = true\n     * StringUtils.containsAny(\"zzabyycdxx\", \"by\")    = true\n     * StringUtils.containsAny(\"zzabyycdxx\", \"zy\")    = true\n     * StringUtils.containsAny(\"zzabyycdxx\", \"\\tx\")   = true\n     * StringUtils.containsAny(\"zzabyycdxx\", \"$.#yF\") = true\n     * StringUtils.containsAny(\"aba\", \"z\")            = false\n     * </pre>\n     *\n     * @param cs\n     *            the CharSequence to check, may be null\n     * @param searchChars\n     *            the chars to search for, may be null\n     * @return the {@code true} if any of the chars are found, {@code false} if no match or null input\n     * @since 2.4\n     * @since 3.0 Changed signature from containsAny(String, String) to containsAny(CharSequence, CharSequence)\n     */\n    public static boolean containsAny(final CharSequence cs, final CharSequence searchChars) {\n        if (searchChars == null) {\n            return false;",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 7
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 1
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "810e3560590bb807ed7113ccfff716aac21a3f33_247_272_64_67_256_281",
+    "project": "gson",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "test-shrinker/src/test/java/com/google/gson/it/ShrinkingIT.java",
+    "methodNameBefore": "com.google.gson.it.ShrinkingIT#testNoSerializedName_NoArgsConstructorNoJdkUnsafe",
+    "sourceCodeBefore": "@Test\n  public void testNoSerializedName_NoArgsConstructorNoJdkUnsafe() throws Exception {\n    runTest(\n        \"com.example.NoSerializedNameMain\",\n        c -> {\n          Method m = c.getMethod(\"runTestNoJdkUnsafe\");\n\n          if (jarToTest.equals(PROGUARD_RESULT_PATH)) {\n            Object result = m.invoke(null);\n            assertThat(result).isEqualTo(\"value\");\n          } else {\n            // R8 performs more aggressive optimizations\n            Exception e = assertThrows(InvocationTargetException.class, () -> m.invoke(null));\n            assertThat(e)\n                .hasCauseThat()\n                .hasMessageThat()\n                .isEqualTo(\n                    \"Unable to create instance of class\"\n                        + \" com.example.NoSerializedNameMain$TestClassNotAbstract; usage of JDK\"\n                        + \" Unsafe is disabled. Registering an InstanceCreator or a TypeAdapter for\"\n                        + \" this type, adding a no-args constructor, or enabling usage of JDK\"\n                        + \" Unsafe may fix this problem. Or adjust your R8 configuration to keep\"\n                        + \" the no-args constructor of the class.\");\n          }\n        });\n  }",
+    "groundTruthAfter": "@Test\n  public void testNoSerializedName_NoArgsConstructorNoJdkUnsafe() throws Exception {\n    runTest(\n        \"com.example.NoSerializedNameMain\",\n        c -> {\n          Method m = c.getMethod(\"runTestNoJdkUnsafe\");\n\n          if (isTestingProGuard()) {\n            Object result = m.invoke(null);\n            assertThat(result).isEqualTo(\"value\");\n          } else {\n            // R8 performs more aggressive optimizations\n            Exception e = assertThrows(InvocationTargetException.class, () -> m.invoke(null));\n            assertThat(e)\n                .hasCauseThat()\n                .hasMessageThat()\n                .isEqualTo(\n                    \"Unable to create instance of class\"\n                        + \" com.example.NoSerializedNameMain$TestClassNotAbstract; usage of JDK\"\n                        + \" Unsafe is disabled. Registering an InstanceCreator or a TypeAdapter for\"\n                        + \" this type, adding a no-args constructor, or enabling usage of JDK\"\n                        + \" Unsafe may fix this problem. Or adjust your R8 configuration to keep\"\n                        + \" the no-args constructor of the class.\");\n          }\n        });\n  }\n/** Returns whether the test is currently running for ProGuard, instead of R8 */\n  private boolean isTestingProGuard() {\n    return jarToTest.equals(PROGUARD_RESULT_PATH);\n  }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "12d2b8eab0a0f34068997cf5ca880fe7092f7eb4_62_71__41_66_62_71",
+    "project": "guava",
+    "refactoringType": "Inline Method",
+    "compileJDK": 21,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true -DskipTests -pl '!guava-gwt' -am",
+    "filePathBefore": "android/guava-tests/test/com/google/common/net/HttpHeadersTest.java",
+    "methodNameBefore": "com.google.common.net.HttpHeadersTest#assertConstantNameMatchesString",
+    "sourceCodeBefore": "static void assertConstantNameMatchesString(\n      Class<?> clazz,\n      ImmutableBiMap<String, String> specialCases,\n      ImmutableSet<String> uppercaseAcronyms)\n      throws IllegalAccessException {\n    for (Field field : relevantFields(clazz)) {\n      assertEquals(\n          upperToHttpHeaderName(field.getName(), specialCases, uppercaseAcronyms), field.get(null));\n    }\n  }",
+    "groundTruthAfter": "public void testConstantNameMatchesString() throws Exception {\n    // Special case some of the weird HTTP Header names...\n    ImmutableBiMap<String, String> specialCases =\n        ImmutableBiMap.<String, String>builder()\n            .put(\"CDN_LOOP\", \"CDN-Loop\")\n            .put(\"ETAG\", \"ETag\")\n            .put(\"SOURCE_MAP\", \"SourceMap\")\n            .put(\"SEC_CH_UA_WOW64\", \"Sec-CH-UA-WoW64\")\n            .put(\"SEC_WEBSOCKET_ACCEPT\", \"Sec-WebSocket-Accept\")\n            .put(\"SEC_WEBSOCKET_EXTENSIONS\", \"Sec-WebSocket-Extensions\")\n            .put(\"SEC_WEBSOCKET_KEY\", \"Sec-WebSocket-Key\")\n            .put(\"SEC_WEBSOCKET_PROTOCOL\", \"Sec-WebSocket-Protocol\")\n            .put(\"SEC_WEBSOCKET_VERSION\", \"Sec-WebSocket-Version\")\n            .put(\"X_WEBKIT_CSP\", \"X-WebKit-CSP\")\n            .put(\"X_WEBKIT_CSP_REPORT_ONLY\", \"X-WebKit-CSP-Report-Only\")\n            .buildOrThrow();\n    ImmutableSet<String> uppercaseAcronyms =\n        ImmutableSet.of(\n            \"CH\", \"ID\", \"DNT\", \"DNS\", \"DPR\", \"ECT\", \"GPC\", \"HTTP2\", \"IP\", \"MD5\", \"P3P\", \"RTT\", \"TE\",\n            \"UA\", \"UID\", \"URL\", \"WWW\", \"XSS\");\n\n    for (Field field : httpHeadersFields()) {\n      assertEquals(\n          upperToHttpHeaderName(field.getName(), specialCases, uppercaseAcronyms), field.get(null));\n    }\n  }",
+    "coverageInfo": {
+      "testMethod": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "5d416e855b2475de0414e85b838c6313754c57c5_152_170_187_199_153_162",
+    "project": "hertzbeat",
+    "refactoringType": "Extract Method",
+    "compileJDK": 17,
+    "compileCommand": "mvn -U clean package -Drat.skip=true -Dmaven.javadoc.skip=true",
+    "filePathBefore": "manager/src/main/java/org/apache/hertzbeat/manager/controller/AppController.java",
+    "methodNameBefore": "org.apache.hertzbeat.manager.controller.AppController#queryAppsHierarchy",
+    "sourceCodeBefore": "@GetMapping(path = \"/hierarchy\")\n    @Operation(summary = \"Query all monitor metrics level, output in a hierarchical structure\", description = \"Query all monitor metrics level, output in a hierarchical structure\")\n    public ResponseEntity<Message<List<Hierarchy>>> queryAppsHierarchy(\n            @Parameter(description = \"en: language type\",\n                    example = \"zh-CN\")\n            @RequestParam(name = \"lang\", required = false) String lang) {\n        if (lang == null || lang.isEmpty()) {\n            lang = \"zh-CN\";\n        }\n        if (lang.contains(Locale.ENGLISH.getLanguage())) {\n            lang = \"en-US\";\n        } else if (lang.contains(Locale.CHINESE.getLanguage())) {\n            lang = \"zh-CN\";\n        } else {\n            lang = \"en-US\";\n        }\n        List<Hierarchy> appHierarchies = appService.getAllAppHierarchy(lang);\n        return ResponseEntity.ok(Message.success(appHierarchies));\n    }",
+    "groundTruthAfter": "@GetMapping(path = \"/hierarchy\")\n    @Operation(summary = \"Query all monitor metrics level, output in a hierarchical structure\", description = \"Query all monitor metrics level, output in a hierarchical structure\")\n    public ResponseEntity<Message<List<Hierarchy>>> queryAppsHierarchy(\n            @Parameter(description = \"en: language type\",\n                    example = \"zh-CN\")\n            @RequestParam(name = \"lang\", required = false) String lang) {\n        lang = getLang(lang);\n        List<Hierarchy> appHierarchies = appService.getAllAppHierarchy(lang);\n        return ResponseEntity.ok(Message.success(appHierarchies));\n    }\nprivate String getLang(@RequestParam(name = \"lang\", required = false) @Parameter(description = \"en: language type\", example = \"zh-CN\") String lang) {\n        if (lang == null || lang.isEmpty()) {\n            lang = \"zh-CN\";\n        }\n        if (lang.contains(Locale.ENGLISH.getLanguage())) {\n            lang = \"en-US\";\n        } else if (lang.contains(Locale.CHINESE.getLanguage())) {\n            lang = \"zh-CN\";\n        } else {\n            lang = \"en-US\";\n        }\n        return lang;\n    }",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 9
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 2
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  },
+  {
+    "uniqueId": "ee00217733018075ccade7e1145f45ff9acae0c2_296_333_322_331_290_320",
+    "project": "hibernate-orm",
+    "refactoringType": "Extract Method",
+    "compileJDK": 21,
+    "compileCommand": "./gradlew clean build",
+    "filePathBefore": "hibernate-core/src/main/java/org/hibernate/persister/entity/mutation/InsertCoordinatorStandard.java",
+    "methodNameBefore": "org.hibernate.persister.entity.mutation.InsertCoordinatorStandard#doDynamicInserts",
+    "sourceCodeBefore": "protected GeneratedValues doDynamicInserts(\n\t\t\tObject id,\n\t\t\tObject[] values,\n\t\t\tObject object,\n\t\t\tSharedSessionContractImplementor session,\n\t\t\tboolean forceIdentifierBinding) {\n\t\tfinal boolean[] insertability = getPropertiesToInsert( values );\n\t\tfinal MutationOperationGroup insertGroup = generateDynamicInsertSqlGroup( insertability, object, session, forceIdentifierBinding );\n\n\t\tfinal MutationExecutor mutationExecutor = executor( session, insertGroup, true );\n\n\t\tfinal InsertValuesAnalysis insertValuesAnalysis = new InsertValuesAnalysis( entityPersister(), values );\n\n\t\tfinal TableInclusionChecker tableInclusionChecker = getTableInclusionChecker( insertValuesAnalysis );\n\n\t\tdecomposeForInsert( mutationExecutor, id, values, insertGroup, insertability, tableInclusionChecker, session );\n\n\t\ttry {\n\t\t\treturn mutationExecutor.execute(\n\t\t\t\t\tobject,\n\t\t\t\t\tinsertValuesAnalysis,\n\t\t\t\t\ttableInclusionChecker,\n\t\t\t\t\t(statementDetails, affectedRowCount, batchPosition) -> {\n\t\t\t\t\t\tstatementDetails.getExpectation().verifyOutcome(\n\t\t\t\t\t\t\t\taffectedRowCount,\n\t\t\t\t\t\t\t\tstatementDetails.getStatement(),\n\t\t\t\t\t\t\t\tbatchPosition,\n\t\t\t\t\t\t\t\tstatementDetails.getSqlString()\n\t\t\t\t\t\t);\n\t\t\t\t\t\treturn true;\n\t\t\t\t\t},\n\t\t\t\t\tsession\n\t\t\t);\n\t\t}\n\t\tfinally {\n\t\t\tmutationExecutor.release();\n\t\t}\n\t}",
+    "groundTruthAfter": "protected GeneratedValues doDynamicInserts(\n\t\t\tObject id,\n\t\t\tObject[] values,\n\t\t\tObject object,\n\t\t\tSharedSessionContractImplementor session,\n\t\t\tboolean forceIdentifierBinding) {\n\t\tfinal boolean[] insertability = getPropertiesToInsert( values );\n\t\tfinal MutationOperationGroup insertGroup =\n\t\t\t\tgenerateDynamicInsertSqlGroup( insertability, object, session, forceIdentifierBinding );\n\n\t\tfinal MutationExecutor mutationExecutor = executor( session, insertGroup, true );\n\n\t\tfinal InsertValuesAnalysis insertValuesAnalysis = new InsertValuesAnalysis( entityPersister(), values );\n\n\t\tfinal TableInclusionChecker tableInclusionChecker = getTableInclusionChecker( insertValuesAnalysis );\n\n\t\tdecomposeForInsert( mutationExecutor, id, values, insertGroup, insertability, tableInclusionChecker, session );\n\n\t\ttry {\n\t\t\treturn mutationExecutor.execute(\n\t\t\t\t\tobject,\n\t\t\t\t\tinsertValuesAnalysis,\n\t\t\t\t\ttableInclusionChecker,\n\t\t\t\t\tInsertCoordinatorStandard::verifyOutcome,\n\t\t\t\t\tsession\n\t\t\t);\n\t\t}\n\t\tfinally {\n\t\t\tmutationExecutor.release();\n\t\t}\n\t}\nprivate static boolean verifyOutcome(PreparedStatementDetails statementDetails, int affectedRowCount, int batchPosition)\n\t\t\tthrows SQLException {\n\t\tstatementDetails.getExpectation().verifyOutcome(\n\t\t\t\taffectedRowCount,\n\t\t\t\tstatementDetails.getStatement(),\n\t\t\t\tbatchPosition,\n\t\t\t\tstatementDetails.getSqlString()\n\t\t);\n\t\treturn true;\n\t}",
+    "coverageInfo": {
+      "INSTRUCTION": {
+        "missed": 0,
+        "covered": 48
+      },
+      "LINE": {
+        "missed": 0,
+        "covered": 8
+      },
+      "COMPLEXITY": {
+        "missed": 0,
+        "covered": 1
+      },
+      "METHOD": {
+        "missed": 0,
+        "covered": 1
+      }
+    }
+  }
+]
