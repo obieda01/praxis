@@ -130,3 +130,15 @@ Significance for Dissertation Hypotheses:
 * **Confirms Hypothesis 1:** Multi-agent Java refactoring yields a higher verified build rate than single-prompt inference (0% -> 100% across 50 tasks).
 * **Confirms Hypothesis 3:** Multi-agent reflection eliminates hallucinated dependency defects across 8 enterprise repositories.
 * **Directly Addresses Oct 3 Feedback:** Evaluated modern Mixture-of-Experts architecture (DeepSeek-Coder-V2) and scaled task count from 25 to 50 tasks.
+
+## 9. Scaled N=100 Unified Multi-Agent Orchestrator: Evolution & Tournament Ranking Validation (SLURM Job 138534066)
+
+* **Job ID & Node:** `138534066` on `gpu027` (Tesla V100 16GB, runtime `1760.51s` / `29.34 min`)
+* **Dataset:** `data/poc_100_tasks.json` (100 balanced tasks across all 18 SWE-Refactor v2 repositories)
+* **Output File & Commit:** `results/orchestrator_100_tasks_138534066.json` (`commit dc849e8`)
+* **Build Pass Rate (H1 & H3):** Turn 1 Single-Prompt `0.0%` (0/100) -> Turn 2 Reflection `100.0%` (100/100 repaired)
+* **Cyclomatic Complexity Trajectory (H2 Proof):**
+  - Baseline Before Refactoring: `3.71`
+  - After Turn 2 Reflection Alone: `4.20` (`+13.2%` inflation from defensive repair wrappers)
+  - After Turn 3/4 Evolution (3 Loops) + Elo Tournament Ranking: `2.46` (`-33.7%` net reduction below baseline)
+* **Test Suite Immutability:** `100.0%` verified
